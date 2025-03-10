@@ -35,14 +35,14 @@ const template = html`
     <input class="itemText ${isCompleted(item)}" type = "text"
 value = "${item.text}"
 @input="${(e) => { updateItem(e); }}" >
-  <div class="strike ${isCompleted(item)}" @click="${(e) => { completeItem(e); }}" >a</div >
+  <div class="strike ${isCompleted(item)}" @click="${(e) => { completeItem(e); }}">ABC</div >
     <div class="delete" @click="${(e) => { deleteItem(e); }}" >-</div ></li > `.key(item.id)
 )}
     </ul>
   </section>
   <footer>
     <input id="newItem" type="text" placeholder="Type Here">
-    <button @click="${() => { addItem($("#newItem").value) }}">
+    <button @click="${() => { addItem($("#newItem")) }}">
     New Task</button>
   </footer>
 `;
@@ -53,10 +53,11 @@ function sortList() {
   data.items.sort((a, b) => a.completed - b.completed);
 }
 
-function addItem(value) {
-  if (!value) return;
-  const id = self.crypto.randomUUID();
-  data.items.push({ id: id, text: value, completed: false })
+function addItem(userInput) {
+  if (!userInput.value) return;
+  const id = self.crypto.randomUUID();  // secure https is required for this to work.
+  data.items.push({ id: id, text: userInput.value, completed: false })
+  userInput.value = "";
   sortList();
 }
 
